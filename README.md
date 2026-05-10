@@ -15,9 +15,3 @@ A local Windows desktop app for creating chapter folder structures automatically
 - Light/Dark mode
 - First-launch workspace folder setup
 - Fully local/offline
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
