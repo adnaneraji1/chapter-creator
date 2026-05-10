@@ -1,0 +1,15 @@
+{
+  "name": "chapter-app",
+  "version": "1.0.0",
+  "description": "Chapter creator desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^37.0.0"
+  }
+}

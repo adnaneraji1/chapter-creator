@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter Creator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="brand-mark"></div>
+                <div>
+                    <div class="brand-title">Chapter Creator</div>
+                    <div class="brand-subtitle">developer workflow</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">Workflow</div>
+
+                <button class="nav-item active" type="button" data-view="createView">
+                    <span class="nav-index">01</span>
+                    <span>Create Chapter</span>
+                </button>
+
+                <button class="nav-item" type="button" data-view="previewView">
+                    <span class="nav-index">02</span>
+                    <span>Structure Preview</span>
+                </button>
+
+                <button class="nav-item" type="button" data-view="activityView">
+                    <span class="nav-index">03</span>
+                    <span>Recent Activity</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="footer-label">Local runtime</div>
+                <div class="status-row">
+                    <span class="status-dot"></span>
+                    <span>Ready</span>
+                </div>
+
+                <div class="footer-actions">
+                    <button id="themeBtn" class="icon-btn" type="button" aria-label="Toggle dark mode"
+                        title="Toggle dark mode">
+                        <span class="icon-wrap sun-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8" />
+                                <path
+                                    d="M12 2.8V5.1M12 18.9V21.2M21.2 12H18.9M5.1 12H2.8M18.5 5.5L16.8 7.2M7.2 16.8L5.5 18.5M18.5 18.5L16.8 16.8M7.2 7.2L5.5 5.5"
+                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                            </svg>
+                        </span>
+
+                        <span class="icon-wrap moon-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M19.2 14.8A7.8 7.8 0 0 1 9.2 4.8a8.8 8.8 0 1 0 10 10Z" stroke="currentColor"
+                                    stroke-width="1.8" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </button>
+
+                    <button id="updateBtn" class="update-btn" type="button">Update UI</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <div class="hero">
+                <div>
+                    <p class="eyebrow">Filesystem automation</p>
+                    <h1>Build chapter folders<br>with zero friction.</h1>
+                    <p class="hero-copy">
+                        A local utility for creating chapter structures across existing or new works,
+                        designed for fast, keyboard-friendly developer workflows.
+                    </p>
+                </div>
+
+                <div class="hero-meta">
+                    <div class="meta-card">
+                        <div class="meta-label">Environment</div>
+                        <div class="meta-value">Local / Offline</div>
+                    </div>
+                    <div class="meta-card">
+                        <div class="meta-label">Mode</div>
+                        <div class="meta-value" id="modeIndicator">Idle</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create -->
+            <section class="workspace view-panel active-view" id="createView">
+                <div class="workspace-header">
+                    <div>
+                        <div class="workspace-kicker">Create node</div>
+                        <h2>Chapter workflow</h2>
+                    </div>
+                    <div class="workspace-pill">v1</div>
+                </div>
+
+                <div class="step active" id="step1">
+                    <label for="chapter">Chapter Number</label>
+                    <input id="chapter" type="number" min="0" max="999" placeholder="0 - 999" />
+                    <p class="hint">Press Enter to continue.</p>
+                </div>
+
+                <div class="step" id="step2">
+                    <label>Work Type</label>
+                    <div class="choice-buttons">
+                        <button type="button" id="btnNo">Existing Work</button>
+                        <button type="button" id="btnYes">New Work</button>
+                    </div>
+                    <p class="hint">Choose the source path for this chapter.</p>
+                </div>
+
+                <div class="step" id="step3-existing">
+                    <label for="works">Select Existing Work</label>
+                    <select id="works">
+                        <option value="" selected disabled>Loading works...</option>
+                    </select>
+                    <p class="hint">Press Enter to create.</p>
+                </div>
+
+                <div class="step" id="step3-new">
+                    <label for="newWork">New Work Name</label>
+                    <input id="newWork" type="text" placeholder="the-great-work-name" />
+                    <p class="hint">Whitespace is normalized automatically to kebab-case.</p>
+                </div>
+
+                <div id="message" class="message"></div>
+                <button id="resetBtn" class="reset-btn" style="display:none;">Start Another Chapter</button>
+            </section>
+
+            <!-- Preview -->
+            <section class="workspace view-panel" id="previewView">
+                <div class="workspace-header">
+                    <div>
+                        <div class="workspace-kicker">Preview structure</div>
+                        <h2>Folder tree preview</h2>
+                    </div>
+                    <div class="workspace-pill">live</div>
+                </div>
+
+                <div class="preview-meta">
+                    <div class="meta-inline"><span>Work</span><strong id="previewWork">—</strong></div>
+                    <div class="meta-inline"><span>Chapter</span><strong id="previewChapter">—</strong></div>
+                    <div class="meta-inline"><span>Mode</span><strong id="previewMode">—</strong></div>
+                </div>
+
+                <div class="preview-tree" id="previewTree">
+                    <div class="tree-empty">Fill the form in Create Chapter to generate a live preview.</div>
+                </div>
+            </section>
+
+            <!-- Activity -->
+            <section class="workspace view-panel" id="activityView">
+                <div class="workspace-header">
+                    <div>
+                        <div class="workspace-kicker">Recent activity</div>
+                        <h2>Last created chapters</h2>
+                    </div>
+                    <div class="workspace-pill" id="activityCount">0 items</div>
+                </div>
+
+                <div class="activity-list" id="activityList">
+                    <div class="activity-empty">No activity yet.</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-popup">
+            <div class="spinner"></div>
+            <div class="loading-title">Updating interface</div>
+            <div class="loading-text">Reloading local UI assets…</div>
+        </div>
+    </div>
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal hidden">
+        <div class="modal-box">
+            <h3>Delete activity</h3>
+            <p>Are you sure you want to delete this item?</p>
+
+            <div class="modal-actions">
+                <button id="cancelDelete" class="mini-btn">Cancel</button>
+                <button id="confirmDelete" class="mini-btn danger">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div id="setupModal" class="modal hidden">
+        <div class="modal-box setup-box">
+            <h3>Choose workspace folder</h3>
+            <p>Select the main folder that contains all works.</p>
+
+            <input id="baseDirInput" type="text" placeholder="Example: C:\Users\YourName\Desktop\TeamX">
+
+            <div class="modal-actions">
+                <button id="saveBaseDir" class="mini-btn">Save Folder</button>
+            </div>
+
+            <div id="setupMessage" class="message"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
